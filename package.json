@@ -1,1 +1,27 @@
-{"name": "my-web", "version": "1.0.0", "private": true, "scripts": {"start": "vite", "build": "vite build"}, "devDependencies": {"vite": "^3.0.0", "@vitejs/plugin-react": "^3.0.0", "tailwindcss": "^3.0.0", "postcss": "^8.0.0", "autoprefixer": "^10.0.0"}, "dependencies": {"react": "^18.0.0", "react-dom": "^18.0.0"}}
+{
+  "name": "my-web",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "start": "vite",
+    "dev": "vite",
+    "build": "tsc && vite build",
+    "preview": "vite preview"
+  },
+  "devDependencies": {
+    "vite": "^4.0.0",
+    "@vitejs/plugin-react": "^3.0.0",
+    "tailwindcss": "^3.0.0",
+    "postcss": "^8.0.0",
+    "autoprefixer": "^10.0.0",
+    "typescript": "^5.0.0",
+    "@types/react": "^18.0.0",
+    "@types/react-dom": "^18.0.0"
+  },
+  "dependencies": {
+    "react": "^18.0.0",
+    "react-dom": "^18.0.0",
+    "framer-motion": "^11.0.0"
+  }
+}
