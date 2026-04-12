@@ -1,0 +1,54 @@
+@import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  min-height: 100vh;
+  background: radial-gradient(ellipse at center, #1a0533 0%, #0d001a 60%, #000000 100%);
+  font-family: 'Share Tech Mono', monospace;
+}
+
+@layer utilities {
+  .glow-gold {
+    text-shadow:
+      0 0 8px #FFD700,
+      0 0 20px #FFD700,
+      0 0 40px #FFD700;
+  }
+
+  .glow-purple {
+    text-shadow:
+      0 0 8px #9D4EDD,
+      0 0 20px #9D4EDD,
+      0 0 40px #9D4EDD;
+  }
+
+  .border-glow-gold {
+    box-shadow:
+      0 0 6px #FFD700,
+      0 0 18px #FFD700,
+      inset 0 0 6px rgba(255, 215, 0, 0.1);
+  }
+
+  .border-glow-purple {
+    box-shadow:
+      0 0 6px #9D4EDD,
+      0 0 18px #9D4EDD,
+      inset 0 0 6px rgba(157, 78, 221, 0.1);
+  }
+
+  .card-hover:hover {
+    box-shadow:
+      0 0 12px #FFD700,
+      0 0 32px #FFD700,
+      inset 0 0 10px rgba(255, 215, 0, 0.15);
+  }
+}
