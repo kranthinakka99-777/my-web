@@ -1,12 +1,253 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Legendary Digital Clock</title>
-  </head>
-  <body>
-    <div id="root"></div>
-    <script type="module" src="/src/main.tsx"></script>
-  </body>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Kranthi AI System</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
+
+<script src="https://unpkg.com/scrollreveal"></script>
+
+<style>
+body {
+  margin: 0;
+  font-family: 'Orbitron', sans-serif;
+  background: black;
+  color: #00ffd5;
+  overflow-x: hidden;
+}
+
+/* Loader */
+#loader {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  background: black;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 30px;
+  z-index: 999;
+}
+
+/* Cursor */
+.cursor {
+  width: 20px;
+  height: 20px;
+  border: 2px solid #00ffd5;
+  border-radius: 50%;
+  position: fixed;
+  pointer-events: none;
+  z-index: 9999;
+}
+
+/* Background canvas */
+#bg {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: -1;
+}
+
+/* Layout */
+.container {
+  padding: 50px;
+}
+
+.card {
+  background: rgba(0,255,213,0.05);
+  border: 1px solid rgba(0,255,213,0.3);
+  backdrop-filter: blur(10px);
+  padding: 20px;
+  margin: 20px;
+  border-radius: 20px;
+  box-shadow: 0 0 20px rgba(0,255,213,0.2);
+  transition: 0.3s;
+}
+
+.card:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 50px rgba(0,255,213,0.6);
+}
+
+/* Title */
+h1 {
+  text-align: center;
+  font-size: 50px;
+  text-shadow: 0 0 20px #00ffd5;
+  animation: glow 2s infinite alternate;
+}
+
+@keyframes glow {
+  from { text-shadow: 0 0 10px #00ffd5; }
+  to { text-shadow: 0 0 40px #00ffd5; }
+}
+
+/* Buttons */
+button {
+  background: #00ffd5;
+  border: none;
+  padding: 10px 20px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+button:hover {
+  transform: scale(1.1);
+  box-shadow: 0 0 20px #00ffd5;
+}
+
+/* Chat */
+#chat {
+  margin-top: 20px;
+}
+</style>
+</head>
+
+<body>
+
+<div id="loader">INITIALIZING SYSTEM...</div>
+<div class="cursor" id="cursor"></div>
+<canvas id="bg"></canvas>
+
+<div class="container">
+
+<h1>WELCOME TO KRANTHI'S WORLD</h1>
+
+<div class="card">
+<h2>AIML CORE</h2>
+<p id="typing"></p>
+</div>
+
+<div class="card">
+<h2>NEON SNAKE</h2>
+<canvas id="game" width="300" height="300"></canvas>
+</div>
+
+<div class="card">
+<h2>AI CHAT</h2>
+<div id="chat">
+<input id="msg" placeholder="Ask AI..." />
+<button onclick="reply()">Send</button>
+<p id="res"></p>
+</div>
+</div>
+
+</div>
+
+<script>
+// Loader
+window.onload = () => {
+  document.getElementById("loader").style.display = "none";
+}
+
+// Cursor
+document.addEventListener("mousemove", e => {
+  cursor.style.left = e.pageX + "px";
+  cursor.style.top = e.pageY + "px";
+});
+
+// Background animation
+const canvas = document.getElementById("bg");
+const ctx = canvas.getContext("2d");
+canvas.width = window.innerWidth;
+canvas.height = window.innerHeight;
+
+let particles = [];
+for (let i = 0; i < 80; i++) {
+  particles.push({
+    x: Math.random()*canvas.width,
+    y: Math.random()*canvas.height,
+    dx: (Math.random()-0.5),
+    dy: (Math.random()-0.5)
+  });
+}
+
+function animate(){
+  ctx.clearRect(0,0,canvas.width,canvas.height);
+  ctx.fillStyle="#00ffd5";
+
+  particles.forEach(p=>{
+    ctx.beginPath();
+    ctx.arc(p.x,p.y,2,0,Math.PI*2);
+    ctx.fill();
+
+    p.x+=p.dx;
+    p.y+=p.dy;
+  });
+
+  requestAnimationFrame(animate);
+}
+animate();
+
+// Typing effect
+const text = "Status: Active. Researching Deep Learning at Aditya University.";
+let i = 0;
+
+function type(){
+  if(i < text.length){
+    document.getElementById("typing").innerHTML += text.charAt(i);
+    i++;
+    setTimeout(type,40);
+  }
+}
+type();
+
+// Snake game
+const game = document.getElementById("game");
+const gtx = game.getContext("2d");
+
+let snake = [{x:150,y:150}];
+let food = {x:100,y:100};
+let dx=10, dy=0;
+
+function draw(){
+  gtx.clearRect(0,0,300,300);
+
+  gtx.fillStyle="#00ffd5";
+  snake.forEach(s=>gtx.fillRect(s.x,s.y,10,10));
+
+  gtx.fillStyle="red";
+  gtx.fillRect(food.x,food.y,10,10);
+
+  let head={x:snake[0].x+dx,y:snake[0].y+dy};
+  snake.unshift(head);
+
+  if(head.x===food.x && head.y===food.y){
+    food={
+      x:Math.floor(Math.random()*30)*10,
+      y:Math.floor(Math.random()*30)*10
+    };
+  } else {
+    snake.pop();
+  }
+}
+
+setInterval(draw,100);
+
+document.addEventListener("keydown",e=>{
+  if(e.key==="ArrowUp"){dx=0;dy=-10;}
+  if(e.key==="ArrowDown"){dx=0;dy=10;}
+  if(e.key==="ArrowLeft"){dx=-10;dy=0;}
+  if(e.key==="ArrowRight"){dx=10;dy=0;}
+});
+
+// Chatbot
+function reply(){
+  let input=document.getElementById("msg").value;
+  document.getElementById("res").innerText="AI: Processing → "+input;
+}
+
+// Scroll animation
+ScrollReveal().reveal('.card',{
+  delay:200,
+  distance:'50px',
+  origin:'bottom',
+  duration:1000
+});
+</script>
+
+</body>
 </html>
